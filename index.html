@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crooked Creek - Bluegrass Band Montreal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--bark:#1c1208;--wood:#2a1c0d;--amber:#c47a2b;--gold:#e8a73a;--cream:#f5ead8;--light:#c4a882;--mid:#8a7060}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bark);color:var(--cream);font-family:'Crimson Pro',serif;font-size:20px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:18px 48px;display:flex;justify-content:space-between;align-items:center;transition:all .4s}
+nav.scrolled{background:rgba(28,18,8,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(196,122,43,.18)}
+.nav-logo{font-family:'Special Elite',cursive;font-size:18px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;text-decoration:none}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-link{font-family:'Crimson Pro',serif;font-size:16px;color:var(--light);text-decoration:none;letter-spacing:.04em;transition:color .2s;padding:6px 10px}
+.nav-link:hover{color:var(--gold)}
+.nav-icon{display:flex;align-items:center;justify-content:center;width:34px;height:34px;color:var(--light);text-decoration:none;font-size:16px;transition:color .2s;border-radius:50%;border:1px solid rgba(196,122,43,.2);margin-left:4px}
+.nav-icon:hover{color:var(--gold);border-color:var(--gold)}
+.nav-btn{font-family:'Special Elite',cursive;font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:10px 20px;transition:all .25s;background:var(--gold);color:var(--bark);border:1px solid var(--gold);margin-left:8px}
+.nav-btn:hover{background:var(--amber);border-color:var(--amber)}
+
+/* HAMBURGER */
+.hamburger{display:none;flex-direction:column;justify-content:center;align-items:center;width:44px;height:44px;cursor:pointer;background:none;border:1px solid rgba(196,122,43,.3);padding:10px;gap:5px;transition:border-color .2s;z-index:300;position:relative}
+.hamburger:hover{border-color:var(--gold)}
+.hamburger span{display:block;width:22px;height:2px;background:var(--gold);transition:all .35s cubic-bezier(.23,1,.32,1);transform-origin:center}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* MOBILE MENU */
+.mobile-menu{position:fixed;inset:0;z-index:250;background:rgba(28,18,8,.98);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;opacity:0;pointer-events:none;transition:opacity .35s ease}
+.mobile-menu.open{opacity:1;pointer-events:all}
+.mob-close{position:absolute;top:20px;right:20px;width:44px;height:44px;background:none;border:1px solid rgba(196,122,43,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s;flex-shrink:0}
+.mob-close:hover{border-color:var(--gold)}
+.mob-close::before,.mob-close::after{content:"";position:absolute;width:20px;height:2px;background:var(--gold);border-radius:1px}
+.mob-close::before{transform:rotate(45deg)}
+.mob-close::after{transform:rotate(-45deg)}
+.mobile-menu a{font-family:'Special Elite',cursive;font-size:28px;letter-spacing:.12em;text-transform:uppercase;color:var(--cream);text-decoration:none;padding:14px 28px;opacity:0;transform:translateY(20px);transition:opacity .3s ease,transform .3s ease,color .2s}
+.mobile-menu.open a{opacity:1;transform:translateY(0)}
+.mobile-menu.open a:nth-child(2){transition-delay:.06s}
+.mobile-menu.open a:nth-child(3){transition-delay:.12s}
+.mobile-menu.open a:nth-child(4){transition-delay:.18s}
+.mobile-menu.open a:nth-child(5){transition-delay:.24s}
+.mobile-menu.open a:nth-child(6){transition-delay:.3s}
+.mobile-menu a:hover{color:var(--gold)}
+.mob-divider{width:60px;height:1px;background:rgba(196,122,43,.3);margin:8px 0;opacity:0;transition:opacity .3s ease .35s}
+.mobile-menu.open .mob-divider{opacity:1}
+.mob-btn{background:var(--gold);color:var(--bark) !important;padding:16px 40px !important;font-size:20px !important}
+
+/* HERO */
+.hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
+.hero-bg-fallback{position:absolute;inset:0;z-index:0;background-image:url('https://res.cloudinary.com/dvznmnpys/image/upload/v1773841537/Crooked_Creed_-_Header_image_mpgz6x.png');background-size:cover;background-position:center top}
+.hero-video-wrap{position:absolute;inset:0;z-index:1;overflow:hidden;opacity:0;transition:opacity 1s ease}
+.hero-video-wrap.loaded{opacity:1}
+.hero-video-wrap video{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);min-width:100%;min-height:100%;width:auto;height:auto;object-fit:cover;pointer-events:none}
+.hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,rgba(28,18,8,.4) 0%,rgba(28,18,8,.5) 60%,rgba(28,18,8,.88) 100%)}
+.hero-content{position:relative;z-index:3;padding:0 40px;display:flex;flex-direction:column;align-items:center}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(72px,11vw,148px);font-weight:900;line-height:.92;letter-spacing:-.02em;color:var(--cream);opacity:0;animation:fadeIn 1s ease .2s forwards}
+.hero-name em{display:block;font-style:italic;color:var(--gold);font-weight:400;font-size:.68em}
+.hero-sub-wrap{margin-top:32px;display:flex;flex-direction:column;align-items:center;gap:20px;opacity:0;transform:translateY(30px);animation:fadeUp .9s ease 1.4s forwards}
+.hero-tag{font-family:'Special Elite',cursive;font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--light)}
+.hero-cta-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.hero-sound{position:absolute;bottom:28px;right:36px;z-index:4;background:rgba(28,18,8,.7);border:1px solid rgba(232,167,58,.3);color:var(--light);font-family:'Special Elite',cursive;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:9px 14px;cursor:pointer;transition:all .25s}
+.hero-sound:hover{border-color:var(--gold);color:var(--gold)}
+.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.5;animation:bounce 2.2s infinite}
+.hero-scroll span{font-family:'Special Elite',cursive;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--light)}
+.hero-scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,var(--amber),transparent)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
+
+/* BUTTONS */
+.btn{font-family:'Special Elite',cursive;font-size:13px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:15px 30px;transition:all .25s;display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:none}
+.btn-gold{background:var(--gold);color:var(--bark);font-weight:700}
+.btn-gold:hover{background:var(--amber);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,167,58,.35)}
+.btn-outline{border:2px solid rgba(232,167,58,.55);color:var(--gold);background:transparent}
+.btn-outline:hover{border-color:var(--gold);background:rgba(232,167,58,.1);transform:translateY(-2px)}
+.btn-insta{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;border:none}
+.btn-insta:hover{opacity:.88;transform:translateY(-2px);box-shadow:0 8px 24px rgba(253,29,29,.3)}
+
+/* CTA BAR */
+.cta-bar{background:var(--amber);padding:16px 56px;display:flex;align-items:center;justify-content:flex-end;gap:24px;flex-wrap:wrap}
+.cta-bar-text{font-family:'Playfair Display',serif;font-size:21px;font-style:italic;font-weight:700;color:var(--bark);margin-right:auto}
+.cta-bar .btn-dark{background:var(--bark);color:var(--gold);font-family:'Special Elite',cursive;font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:11px 22px;display:inline-flex;align-items:center;gap:8px;transition:all .25s;border:none;cursor:pointer}
+.cta-bar .btn-dark:hover{background:#0e0905;transform:translateY(-2px)}
+
+/* SECTIONS */
+.sec{padding:100px 56px}.s-in{max-width:1160px;margin:0 auto}
+.lbl{font-family:'Special Elite',cursive;font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.lbl::before{content:"✦";font-size:9px}
+.h2{font-family:'Playfair Display',serif;font-size:clamp(40px,4.5vw,62px);font-weight:700;line-height:1.05;letter-spacing:-.015em;margin-bottom:48px}
+.h2 em{font-style:italic;color:var(--gold)}
+.body-p{font-size:20px;line-height:1.9;color:rgba(245,234,216,.82);margin-bottom:20px}
+
+/* BIO */
+.sec-bio{background:var(--wood)}
+.bio-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-bottom:64px}
+.bio-img-wrap{overflow:hidden}
+.bio-img{width:100%;display:block;filter:sepia(.1) contrast(1.07);transition:transform .6s ease;object-fit:contain;object-position:top}
+.bio-img-wrap:hover .bio-img{transform:scale(1.03)}
+.members-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.member{padding:28px 20px;background:rgba(255,255,255,.03);border:1px solid rgba(196,122,43,.1);transition:all .3s;text-align:center}
+.member:hover{background:rgba(196,122,43,.07);border-color:rgba(196,122,43,.25)}
+.member-name{font-family:'Special Elite',cursive;font-size:17px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.member-role{font-size:20px;color:var(--light);font-style:italic}
+
+/* BANJO PARALLAX STRIP */
+.banjo-strip{position:relative;height:36vh;overflow:hidden}
+.banjo-strip-video{position:absolute;top:-20%;left:0;width:100%;height:140%;object-fit:cover;pointer-events:none;will-change:transform}
+.banjo-strip-overlay{position:absolute;inset:0;background:rgba(28,18,8,.52);z-index:1}
+
+/* MUSIC */
+.album-sec{background:var(--bark)}
+.album-heading{font-family:'Playfair Display',serif;font-size:clamp(26px,2.8vw,40px);font-weight:700;line-height:1.1;margin-bottom:44px}
+.album-heading em{color:var(--gold);font-style:italic}
+.album-three{display:grid;grid-template-columns:240px 1fr 220px;gap:36px;align-items:start}
+.vinyl-col{display:flex;flex-direction:column;align-items:center;gap:18px}
+.vinyl-scene{position:relative;width:230px;height:205px;cursor:pointer;flex-shrink:0}
+.vinyl-cover{position:absolute;top:0;left:0;width:210px;height:210px;object-fit:contain;border-radius:3px;box-shadow:0 8px 32px rgba(0,0,0,.7);z-index:3;transition:transform .5s cubic-bezier(.25,.46,.45,.94)}
+.vinyl-disc{position:absolute;top:0;left:8px;width:210px;height:210px;border-radius:50%;z-index:2;transition:transform .5s cubic-bezier(.25,.46,.45,.94);
+  background:radial-gradient(circle at 50%,#2a2a2a 0%,#2a2a2a 9%,transparent 9%),
+  repeating-radial-gradient(circle at 50%,#111 0px,#111 2px,#1a1a1a 2px,#1a1a1a 5px);
+  box-shadow:0 8px 40px rgba(0,0,0,.85)}
+.vinyl-disc::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,var(--gold) 0%,var(--amber) 50%,#1a0a00 100%)}
+.vinyl-scene:hover .vinyl-cover{transform:translateX(-34px)}
+.vinyl-scene:hover .vinyl-disc{transform:translateX(42px) rotate(30deg)}
+.player-col{display:flex;flex-direction:column;gap:0}
+.a-title{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;font-style:italic;color:var(--cream);line-height:1;margin-bottom:3px}
+.a-year{font-family:'Special Elite',cursive;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+.a-desc{font-size:15px;line-height:1.75;color:rgba(245,234,216,.72);margin-bottom:12px}
+.bc-wrap{border:1px solid rgba(196,122,43,.2);overflow:hidden;background:#1c1208}
+.bc-wrap iframe{display:block;width:100%;border:none;background:#1c1208}
+.tim-col{display:flex;flex-direction:column;align-items:center;gap:12px}
+.tim-img{width:100%;display:block;object-fit:contain;object-position:top;filter:sepia(.1) contrast(1.07);transition:transform .5s ease}
+.tim-img:hover{transform:scale(1.03)}
+.tim-label{font-family:'Special Elite',cursive;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);text-align:center}
+
+/* VIDEO */
+.sec-video{background:var(--wood)}
+.vid-wrap{position:relative;width:100%;padding-bottom:56.25%;border:1px solid rgba(196,122,43,.15);box-shadow:0 16px 60px rgba(0,0,0,.7);overflow:hidden;background:#000}
+.vid-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.vid-tint{position:absolute;inset:0;background:rgba(180,80,10,.22);pointer-events:none;z-index:2;mix-blend-mode:multiply}
+
+/* SHOWS */
+.sec-shows{background:var(--bark)}
+.shows{display:flex;flex-direction:column;gap:2px;margin-bottom:32px}
+.show{display:flex;align-items:center;gap:16px;padding:16px 18px;background:rgba(255,255,255,.03);border:1px solid rgba(196,122,43,.1);transition:all .3s}
+.show:hover{background:rgba(196,122,43,.07);border-color:rgba(196,122,43,.25);transform:translateX(4px)}
+.show-date{font-family:'Special Elite',cursive;font-size:13px;color:var(--amber);width:72px;flex-shrink:0}
+.show-info{flex:1;min-width:0}
+.show-venue{font-family:'Playfair Display',serif;font-size:18px;color:var(--cream);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.show-loc{font-size:14px;color:var(--light);font-style:italic}
+.ticket-btn{font-family:'Special Elite',cursive;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--amber);text-decoration:none;border:1px solid rgba(196,122,43,.3);padding:8px 12px;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.ticket-btn:hover{background:var(--amber);color:var(--bark)}
+.shows-cta{display:flex;gap:14px;flex-wrap:wrap}
+
+/* INSTAGRAM */
+.sec-insta{background:var(--wood)}
+.insta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:28px}
+.ipost{aspect-ratio:3/4;overflow:hidden;position:relative;cursor:pointer}
+.ipost img{width:100%;height:100%;object-fit:contain;background:var(--bark);transition:transform .4s}
+.ipost:hover img{transform:scale(1.05)}
+.iov{position:absolute;inset:0;background:rgba(28,18,8,0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;transition:background .3s}
+.ipost:hover .iov,.ipost.tapped .iov{background:rgba(28,18,8,.55)}
+.iov-icon{opacity:0;transition:opacity .3s;font-size:28px;color:var(--cream)}
+.iov-open{opacity:0;transition:opacity .3s;font-family:'Special Elite',cursive;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);text-align:center;padding:0 8px}
+.ipost:hover .iov-icon{opacity:1}
+.ipost.tapped .iov-icon{opacity:0}
+.ipost.tapped .iov-open{opacity:1}
+.insta-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* BOOKING */
+.sec-book-press{background:var(--bark)}
+.book-press-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.why-list{display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+.why-item{display:flex;gap:18px;align-items:flex-start;padding:20px 22px;background:rgba(255,255,255,.03);border:1px solid rgba(196,122,43,.1);transition:all .3s}
+.why-item:hover{background:rgba(196,122,43,.07);border-color:rgba(196,122,43,.25)}
+.why-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.why-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--cream);margin-bottom:6px;line-height:1.2}
+.why-text{font-size:17px;color:rgba(245,234,216,.72);line-height:1.7}
+.contact-box{background:rgba(42,28,13,.9);border:1px solid rgba(196,122,43,.28);padding:36px}
+.contact-box-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:6px}
+.contact-box-sub{font-size:17px;color:var(--light);font-style:italic;margin-bottom:8px;line-height:1.5}
+.goldenland-note{font-family:'Special Elite',cursive;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:24px;display:flex;align-items:center;gap:8px}
+.goldenland-note::before{content:"✦";font-size:8px}
+.cf-form{display:flex;flex-direction:column;gap:10px}
+.cf-input{background:rgba(255,255,255,.05);border:1px solid rgba(196,122,43,.25);color:var(--cream);font-family:'Crimson Pro',serif;font-size:18px;padding:14px 18px;outline:none;transition:border-color .2s;width:100%}
+.cf-input::placeholder{color:var(--mid)}
+.cf-input:focus{border-color:var(--amber)}
+textarea.cf-input{resize:vertical;min-height:100px}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cf-submit{font-family:'Special Elite',cursive;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:16px 24px;background:var(--gold);color:var(--bark);border:none;cursor:pointer;transition:all .25s;width:100%;font-weight:700}
+.cf-submit:hover{background:var(--amber);transform:translateY(-1px)}
+.cf-success{display:none;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.25);color:#7defa0;font-family:'Crimson Pro',serif;font-size:18px;font-style:italic;padding:22px;text-align:center;margin-top:10px;line-height:1.7}
+
+/* FOLLOW */
+.sec-follow{background:var(--wood);text-align:center}
+.follow-title{font-family:'Playfair Display',serif;font-size:clamp(36px,4vw,54px);font-weight:900;font-style:italic;color:var(--cream);margin-bottom:8px}
+.follow-title em{color:var(--gold)}
+.follow-sub{font-size:20px;font-style:italic;color:var(--light);margin-bottom:40px}
+.follow-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.follow-link{display:flex;align-items:center;gap:10px;padding:16px 28px;background:rgba(255,255,255,.04);border:1px solid rgba(196,122,43,.2);text-decoration:none;color:var(--cream);font-family:'Special Elite',cursive;font-size:13px;letter-spacing:.12em;text-transform:uppercase;transition:all .25s}
+.follow-link:hover{background:rgba(196,122,43,.12);border-color:var(--amber);transform:translateY(-2px)}
+.follow-link i{font-size:18px}
+
+/* FOOTER */
+footer{background:var(--bark);border-top:1px solid rgba(196,122,43,.15);padding:36px 56px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.f-band{font-family:'Special Elite',cursive;font-size:16px;color:var(--light);letter-spacing:.1em;text-transform:uppercase}
+.f-credit-link{font-family:'Playfair Display',serif;font-size:22px;font-style:italic;font-weight:700;color:var(--gold);text-decoration:none;transition:color .2s;line-height:1.4}
+.f-credit-link:hover{color:var(--amber)}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* MOBILE */
+@media(max-width:960px){
+  nav{padding:14px 20px}
+  .nav-link,.nav-icon,.nav-btn{display:none}
+  .hamburger{display:flex}
+  .hero-sound{display:none}
+  .cta-bar{padding:14px 20px;gap:12px;flex-wrap:nowrap}
+  .cta-bar-text{font-size:15px}
+  .sec{padding:60px 24px}
+  .bio-grid,.book-press-grid{grid-template-columns:1fr;gap:36px}
+  .members-grid{grid-template-columns:repeat(2,1fr)}
+  .insta-grid{grid-template-columns:repeat(3,1fr)}
+  .banjo-strip{height:24vh}
+  .cf-row{grid-template-columns:1fr}
+  footer{padding:28px 24px}
+
+  .album-three{grid-template-columns:1fr;gap:28px}
+  .vinyl-col{order:2;align-items:center}
+  .player-col{order:1}
+  .tim-col{order:3}
+
+  .show{gap:8px;padding:12px 10px}
+  .show-date{font-size:11px;width:46px}
+  .show-venue{font-size:15px}
+  .show-loc{font-size:12px}
+  .ticket-btn{font-size:9px;padding:7px 8px;letter-spacing:.06em}
+
+  .f-credit-link{display:flex;flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mob-close" onclick="closeMenu()" aria-label="Sluit menu"></button>
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#music" onclick="closeMenu()">Listen</a>
+  <a href="#shows" onclick="closeMenu()">Shows</a>
+  <div class="mob-divider"></div>
+  <a href="#booking" class="mob-btn" onclick="closeMenu()">Book Us</a>
+</div>
+
+<nav id="nav">
+  <a href="#top" class="nav-logo">Crooked Creek</a>
+  <div class="nav-links">
+    <a href="#about" class="nav-link">About</a>
+    <a href="#music" class="nav-link">Listen</a>
+    <a href="#shows" class="nav-link">Shows</a>
+    <a href="https://www.instagram.com/crookedcreekband/" target="_blank" class="nav-icon"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://www.youtube.com/channel/UC2uLEwyb108kZhrDK3o6vQA" target="_blank" class="nav-icon"><i class="fa-brands fa-youtube"></i></a>
+    <a href="#booking" class="nav-icon"><i class="fa-regular fa-envelope"></i></a>
+    <a href="#booking" class="nav-btn">Book Us</a>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg-fallback"></div>
+  <div class="hero-video-wrap" id="heroVideoWrap">
+    <video id="heroVideo" autoplay muted loop playsinline
+      src="https://res.cloudinary.com/dvznmnpys/video/upload/v1773841224/Crooked_Creed_-_Header_video_mna0ug.mp4"></video>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-name">Crooked<br><em>Creek</em></div>
+    <div class="hero-sub-wrap">
+      <div class="hero-tag">Bluegrass Band &nbsp;&middot;&nbsp; Montreal</div>
+      <div class="hero-cta-row">
+        <a href="#music" class="btn btn-gold"><i class="fa-solid fa-play"></i> Listen Now</a>
+        <a href="#booking" class="btn btn-outline"><i class="fa-regular fa-calendar"></i> Book Us</a>
+      </div>
+    </div>
+  </div>
+  <button class="hero-sound" id="soundBtn" onclick="toggleSound()">&#128264; Sound Off</button>
+  <div class="hero-scroll"><span>Scroll</span><div class="hero-scroll-line"></div></div>
+</section>
+
+<!-- CTA BAR -->
+<div class="cta-bar">
+  <div class="cta-bar-text">New album out now!</div>
+  <a href="#music" class="btn-dark"><i class="fa-solid fa-play"></i> Listen Now</a>
+</div>
+
+<!-- ABOUT -->
+<section class="sec sec-bio" id="about">
+  <div class="s-in">
+    <div class="bio-grid">
+      <div class="bio-img-wrap reveal">
+        <img class="bio-img" src="https://res.cloudinary.com/dvznmnpys/image/upload/v1773843847/Groupphoto_-_edited_dh3v9c.png" alt="Crooked Creek Band">
+      </div>
+      <div>
+        <div class="lbl">About the Band</div>
+        <h2 class="h2">Roots music from the<br><em>heart of Canada</em></h2>
+        <p class="body-p">Crooked Creek formed in Montreal in 2019. They play bluegrass with the feel of people who grew up surrounded by wide rivers, old barns and long country roads.</p>
+        <p class="body-p">Their songs come from real places. Banjoist Tim Loten named a tune after the sheep farm where he was born. Guitarist Jono Townsend wrote about growing up on the Big Rideau Lake. This is music with its boots in the mud.</p>
+        <p class="body-p">Regular fixtures at The Wheel Club, Grumpy's Bar, Barfly and L'Escalier in Montreal. Audiences that came for a drink end up staying for every song.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <a href="#booking" class="btn btn-gold"><i class="fa-regular fa-calendar"></i> Book the Band</a>
+          <a href="https://www.instagram.com/crookedcreekband/" target="_blank" class="btn btn-insta"><i class="fa-brands fa-instagram"></i> Follow on Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="members-grid">
+      <div class="member reveal"><div class="member-name">Jono Townsend</div><div class="member-role">Guitar and Vocals</div></div>
+      <div class="member reveal"><div class="member-name">Daphnee Vandal</div><div class="member-role">Fiddle and Vocals</div></div>
+      <div class="member reveal"><div class="member-name">Timothy Loten</div><div class="member-role">Banjo and Production</div></div>
+      <div class="member reveal"><div class="member-name">Sam Robinson</div><div class="member-role">Bass</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BANJO PARALLAX STRIP -->
+<div class="banjo-strip" id="banjoStrip">
+  <video class="banjo-strip-video" id="banjoVideo" autoplay muted loop playsinline
+    src="https://res.cloudinary.com/dvznmnpys/video/upload/v1773841304/Crooked_Creed_-_Banjo_video_krfwwf.mp4"></video>
+  <div class="banjo-strip-overlay"></div>
+</div>
+
+<!-- MUSIC / ALBUM -->
+<section class="sec album-sec" id="music">
+  <div class="s-in">
+    <div class="lbl">New Album</div>
+    <div class="album-heading">Listen to the new album: <em>Pictures</em></div>
+    <div class="album-three">
+
+      <!-- Left: vinyl cover -->
+      <div class="vinyl-col">
+        <div class="vinyl-scene" onclick="window.open('https://crookedcreek.bandcamp.com/album/pictures','_blank')">
+          <div class="vinyl-disc"></div>
+          <img class="vinyl-cover" src="https://res.cloudinary.com/dvznmnpys/image/upload/v1773843745/Albumcover_Pictures_-_Crooked_Creek_fbgffg.jpg" alt="Pictures — Crooked Creek">
+        </div>
+        <a href="https://crookedcreek.bandcamp.com/album/pictures" target="_blank" class="btn btn-gold" style="font-size:11px;padding:11px 16px"><i class="fa-brands fa-bandcamp"></i> Buy on Bandcamp</a>
+      </div>
+
+      <!-- Centre: player -->
+      <div class="player-col reveal">
+        <div class="a-title">Pictures</div>
+        <div class="a-year">Full Album &middot; July 2, 2025</div>
+        <p class="a-desc">Eight original songs about cattle, countryside and the people who shaped this band. Recorded at Mom's Basement in Montreal.</p>
+        <div class="bc-wrap">
+          <iframe style="border:0;width:100%;height:370px;background:#1c1208"
+            src="https://bandcamp.com/EmbeddedPlayer/album=2359921986/size=large/bgcol=1c1208/linkcol=e8a73a/tracklist=true/artwork=small/transparent=true/"
+            seamless><a href="https://crookedcreek.bandcamp.com/album/pictures">Pictures by Crooked Creek</a></iframe>
+        </div>
+      </div>
+
+      <!-- Right: Tim -->
+      <div class="tim-col reveal">
+        <img class="tim-img" src="https://res.cloudinary.com/dvznmnpys/image/upload/v1773841679/Banjoplayer_Tim_photo_-_edited_dtt1t7.png" alt="Timothy Loten — Banjo">
+        <div class="tim-label">Timothy Loten &mdash; Banjo</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="sec sec-video" id="video">
+  <div class="s-in">
+    <div class="lbl">Watch</div>
+    <h2 class="h2">Hear Them <em>Play</em></h2>
+    <div style="position:relative">
+      <div class="vid-wrap">
+        <iframe src="https://www.youtube.com/embed/eyUcY5p_Yf4?rel=0&modestbranding=1&color=white" title="Crooked Creek" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" loading="lazy"></iframe>
+      </div>
+      <div class="vid-tint"></div>
+    </div>
+    <div style="margin-top:28px;display:flex;gap:14px;flex-wrap:wrap">
+      <a href="https://www.youtube.com/channel/UC2uLEwyb108kZhrDK3o6vQA" target="_blank" class="btn btn-outline"><i class="fa-brands fa-youtube"></i> Watch More on YouTube</a>
+      <a href="#booking" class="btn btn-gold"><i class="fa-regular fa-calendar"></i> Book Crooked Creek</a>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWS -->
+<section class="sec sec-shows" id="shows">
+  <div class="s-in">
+    <div class="lbl">Our Agenda</div>
+    <h2 class="h2">Upcoming <em>Shows</em></h2>
+    <div class="shows">
+      <div class="show reveal"><div class="show-date">Jul 2025</div><div class="show-info"><div class="show-venue">Album Release: Pictures</div><div class="show-loc">Available on Bandcamp now</div></div><a href="https://crookedcreek.bandcamp.com/album/pictures" target="_blank" class="ticket-btn">Listen Now</a></div>
+      <div class="show reveal"><div class="show-date">TBA</div><div class="show-info"><div class="show-venue">The Wheel Club</div><div class="show-loc">Montreal, QC</div></div><a href="https://www.instagram.com/crookedcreekband/" target="_blank" class="ticket-btn">Follow for Dates</a></div>
+      <div class="show reveal"><div class="show-date">TBA</div><div class="show-info"><div class="show-venue">Grumpy's Bar</div><div class="show-loc">Montreal, QC</div></div><a href="https://www.instagram.com/crookedcreekband/" target="_blank" class="ticket-btn">Follow for Dates</a></div>
+      <div class="show reveal"><div class="show-date">TBA</div><div class="show-info"><div class="show-venue">Barfly</div><div class="show-loc">Montreal, QC</div></div><a href="https://www.instagram.com/crookedcreekband/" target="_blank" class="ticket-btn">Follow for Dates</a></div>
+    </div>
+    <div class="shows-cta">
+      <a href="https://www.instagram.com/crookedcreekband/" target="_blank" class="btn btn-outline"><i class="fa-brands fa-instagram"></i> Follow for Show Updates</a>
+      <a href="#booking" class="btn btn-gold"><i class="fa-regular fa-calendar"></i> Book for Your Venue</a>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section class="sec sec-insta" id="instagram">
+  <div class="s-in">
+    <div class="lbl">Instagram</div>
+    <h2 class="h2">On the <em>Road</em></h2>
+    <div class="insta-grid">
+      <div class="ipost reveal" data-url="https://www.instagram.com/crookedcreekband/">
+        <img src="https://res.cloudinary.com/dvznmnpys/image/upload/v1773842437/Instagram_-_edited_1_l94r9w.png" alt="Crooked Creek on Instagram">
+        <div class="iov"><i class="fa-brands fa-instagram iov-icon"></i><span class="iov-open">Open Instagram</span></div>
+      </div>
+      <div class="ipost reveal" data-url="https://www.instagram.com/crookedcreekband/">
+        <img src="https://res.cloudinary.com/dvznmnpys/image/upload/v1773842436/Instagram_-_edited_2_pvtorj.png" alt="Crooked Creek on Instagram">
+        <div class="iov"><i class="fa-brands fa-instagram iov-icon"></i><span class="iov-open">Open Instagram</span></div>
+      </div>
+      <div class="ipost reveal" data-url="https://www.instagram.com/crookedcreekband/">
+        <img src="https://res.cloudinary.com/dvznmnpys/image/upload/v1773842436/Instagram_-_edited_3_dzpnqw.png" alt="Crooked Creek on Instagram">
+        <div class="iov"><i class="fa-brands fa-instagram iov-icon"></i><span class="iov-open">Open Instagram</span></div>
+      </div>
+    </div>
+    <div class="insta-cta">
+      <a href="https://www.instagram.com/crookedcreekband/" target="_blank" class="btn btn-insta"><i class="fa-brands fa-instagram"></i> Follow @crookedcreekband</a>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="sec sec-book-press" id="booking">
+  <div class="s-in">
+    <div class="lbl">Book &amp; Press</div>
+    <h2 class="h2">Work With<br><em>Crooked Creek</em></h2>
+    <div class="book-press-grid">
+      <div>
+        <div class="why-list">
+          <div class="why-item reveal"><span class="why-icon">&#127928;</span><div><div class="why-title">A show that fills the room</div><div class="why-text">Four musicians, high energy, no backing tracks. Works on a festival stage or in a 60-person bar.</div></div></div>
+          <div class="why-item reveal"><span class="why-icon">&#127931;</span><div><div class="why-title">Bluegrass that crosses over</div><div class="why-text">Crowds who have never heard a banjo leave as fans. Proven at festivals and bars across Montreal since 2019.</div></div></div>
+          <div class="why-item reveal"><span class="why-icon">&#128191;</span><div><div class="why-title">Fresh album out now</div><div class="why-text">Pictures came out July 2025. The ideal moment to book them while the audience is paying attention.</div></div></div>
+          <div class="why-item reveal"><span class="why-icon">&#128247;</span><div><div class="why-title">Press kit available</div><div class="why-text">High resolution photos, bio, album artwork and technical rider on request.</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="contact-box">
+          <div class="contact-box-title">Get in Touch</div>
+          <div class="contact-box-sub">Bookings, press kit requests, festival inquiries and general questions.</div>
+          <div class="goldenland-note">Managed by Goldenland Sessions</div>
+          <div class="cf-form" id="cfForm">
+            <div class="cf-row">
+              <input class="cf-input" type="text" id="cfName" placeholder="Your name" autocomplete="name">
+              <input class="cf-input" type="email" id="cfEmail" placeholder="Your email" autocomplete="email">
+            </div>
+            <input class="cf-input" type="text" id="cfSubject" placeholder="Subject (booking / press kit / other)">
+            <textarea class="cf-input" id="cfMessage" placeholder="Your message..."></textarea>
+            <button class="cf-submit" onclick="submitContact()"><i class="fa-regular fa-paper-plane"></i> &nbsp;Send Message</button>
+          </div>
+          <div class="cf-success" id="cfSuccess">
+            Thank you for your message!<br>
+            <span style="font-size:16px;opacity:.8">We usually respond within 24 hours.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOLLOW -->
+<section class="sec sec-follow" id="follow">
+  <div class="s-in">
+    <div class="follow-title">Follow <em>Crooked Creek</em></div>
+    <div class="follow-sub">Stay up to date on shows, new music and life on the road</div>
+    <div class="follow-links">
+      <a href="https://www.instagram.com/crookedcreekband/" target="_blank" class="follow-link"><i class="fa-brands fa-instagram"></i> Instagram</a>
+      <a href="https://www.youtube.com/channel/UC2uLEwyb108kZhrDK3o6vQA" target="_blank" class="follow-link"><i class="fa-brands fa-youtube"></i> YouTube</a>
+      <a href="https://crookedcreek.bandcamp.com" target="_blank" class="follow-link"><i class="fa-brands fa-bandcamp"></i> Bandcamp</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-band">Crooked Creek &middot; 2026</div>
+  <a href="https://spotglow-studio.com" target="_blank" class="f-credit-link">
+    <span>Made by</span> <span>Spotglow Studio</span>
+  </a>
+</footer>
+
+<script>
+var nav=document.getElementById('nav');
+window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>60);});
+
+var ro=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el);});
+
+var heroWrap=document.getElementById('heroVideoWrap');
+var heroVideo=document.getElementById('heroVideo');
+heroVideo.addEventListener('canplay',function(){setTimeout(function(){heroWrap.classList.add('loaded');},300);});
+setTimeout(function(){heroWrap.classList.add('loaded');},3000);
+
+var muted=true;
+function toggleSound(){
+  var btn=document.getElementById('soundBtn');
+  muted=!muted;
+  heroVideo.muted=muted;
+  btn.innerHTML=muted?'&#128264; Sound Off':'&#128266; Sound On';
+}
+
+function toggleMenu(){
+  var menu=document.getElementById('mobileMenu');
+  var ham=document.getElementById('hamburger');
+  var isOpen=menu.classList.contains('open');
+  menu.classList.toggle('open',!isOpen);
+  ham.classList.toggle('open',!isOpen);
+  document.body.style.overflow=isOpen?'':'hidden';
+}
+function closeMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// Parallax banjo strip
+var banjoStrip=document.getElementById('banjoStrip');
+var banjoVid=document.querySelector('.banjo-strip-video');
+window.addEventListener('scroll',function(){
+  var rect=banjoStrip.getBoundingClientRect();
+  var winH=window.innerHeight;
+  if(rect.bottom>0&&rect.top<winH){
+    var progress=(winH-rect.top)/(winH+rect.height);
+    var shift=(progress-0.5)*50;
+    banjoVid.style.transform='translateY('+shift+'px)';
+  }
+},{passive:true});
+
+// Instagram tap
+document.querySelectorAll('.ipost').forEach(function(el){
+  el.addEventListener('click',function(){
+    var isMobile=window.innerWidth<=960;
+    if(isMobile){
+      if(el.classList.contains('tapped')){window.open(el.dataset.url,'_blank');el.classList.remove('tapped');}
+      else{document.querySelectorAll('.ipost').forEach(function(p){p.classList.remove('tapped');});el.classList.add('tapped');}
+    }else{window.open(el.dataset.url,'_blank');}
+  });
+});
+
+async function submitContact(){
+  var name=document.getElementById('cfName').value.trim();
+  var email=document.getElementById('cfEmail').value.trim();
+  var subject=document.getElementById('cfSubject').value.trim();
+  var message=document.getElementById('cfMessage').value.trim();
+  if(!email||!email.includes('@')){document.getElementById('cfEmail').focus();return;}
+  var btn=document.querySelector('.cf-submit');
+  btn.innerHTML='Sending...';btn.disabled=true;
+  try{
+    var res=await fetch('https://formspree.io/f/mbdzoope',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name,email,subject:subject||'Contact via EPK',message})});
+    if(res.ok){document.getElementById('cfForm').style.display='none';document.getElementById('cfSuccess').style.display='block';}
+    else{btn.innerHTML='<i class="fa-regular fa-paper-plane"></i> &nbsp;Send Message';btn.disabled=false;alert('Something went wrong. Please try again.');}
+  }catch(e){btn.innerHTML='<i class="fa-regular fa-paper-plane"></i> &nbsp;Send Message';btn.disabled=false;alert('Something went wrong.');}
+}
+</script>
+</body>
+</html>
